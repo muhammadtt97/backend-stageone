@@ -1,26 +1,23 @@
 const express = require('express');
 const app = express();
 
-// Define a route for your API
 app.get('/api', (req, res) => {
-    const slackName = req.query.slack_name;
+    const slackName = 'Muhammad alameen Adamu'; // Hardcoded slack_name
     const track = req.query.track;
 
-    if (!slackName || !track) {
-        return res.status(400).json({ error: "slack_name and track are required parameters" });
+    if (!track) {
+        return res.status(400).json({ error: "track is a required parameter" });
     }
 
-    const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-    const currentUTC = new Date().toISOString();
+    const [todays_day, todays_time] = dateFunction();
 
-    // Replace these with your GitHub URLs
     const githubFileURL = "https://github.com/muhammadtt97/repo/blob/main/app.js";
     const githubRepoURL = "https://github.com/muhammadtt97/backend-stageone";
 
     const response = {
         slack_name: slackName,
-        current_day: currentDay,
-        utc_time: currentUTC,
+        current_day: todays_day, 
+        utc_time: todays_time,   
         track: track,
         github_file_url: githubFileURL,
         github_repo_url: githubRepoURL,
@@ -37,11 +34,10 @@ dateFunction = () => {
 
     const now = new Date();
     now.setMinutes(now.getUTCMinutes());
-    const todays_time = now.toISOString().slice(0, 19) + "Z"; // Adjusted UTC time
+    const todays_time = now.toISOString().slice(0, 19) + "Z"; 
 
     return [todays_day, todays_time];
 };
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
