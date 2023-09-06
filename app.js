@@ -3,7 +3,7 @@ const app = express();
 
 // Define a route for your API
 app.get('/api', (req, res) => {
-    const slackName = req.query.slack_name;
+    const slackName = 'Muhammad Alameen Adamu';
     const track = req.query.track;
 
     if (!slackName || !track) {
